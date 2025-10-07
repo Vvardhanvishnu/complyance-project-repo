@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Invoicing ROI Simulator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Invoicing ROI Simulator</h1>
+        <form action="/simulate" method="post">
+            <input type="text" name="scenarioName" placeholder="Scenario Name" required><br>
+            <input type="number" name="monthlyInvoiceVolume" placeholder="Monthly Invoice Volume" required><br>
+            <input type="number" name="numApStaff" placeholder="AP Staff" required><br>
+            <input type="number" step="0.01" name="avgHoursPerInvoice" placeholder="Hours per Invoice" required><br>
+            <input type="number" step="0.01" name="hourlyWage" placeholder="Hourly Wage" required><br>
+            <input type="number" step="0.01" name="errorRateManual" placeholder="Error Rate (%)" required><br>
+            <input type="number" step="0.01" name="errorCost" placeholder="Error Cost" required><br>
+            <input type="number" name="timeHorizonMonths" placeholder="Time Horizon (Months)" required><br>
+            <input type="number" step="0.01" name="oneTimeImplementationCost" placeholder="One-Time Cost"><br>
+            <button type="submit">Simulate</button>
+        </form>
+
+        <h2>Saved Scenarios</h2>
+        <ul>
+            <th:block th:each="scenario : ${scenarios}">
+                <li>
+                    <span th:text="${scenario.scenarioName}"></span>
+                    <a th:href="@{'/delete/' + ${scenario.id}}">Delete</a>
+                </li>
+            </th:block>
+        </ul>
+
+        <div th:if="${result != null}">
+            <h2>💰 Simulation Results</h2>
+            <p>Monthly Savings: $<span th:text="${result['monthlySavings']}"></span></p>
+            <p>Cumulative Savings: $<span th:text="${result['cumulativeSavings']}"></span></p>
+            <p>Net Savings: $<span th:text="${result['netSavings']}"></span></p>
+            <p>Payback (Months): <span th:text="${result['paybackMonths']}"></span></p>
+            <p>ROI (%): <span th:text="${result['roiPercentage']}"></span></p>
+        </div>
+    </div>
+</body>
+</html>
